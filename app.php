@@ -16,7 +16,7 @@ function connect_to_database()
 
 function create_user_table($conn)
 {
-    $sql = "CREATE TABLE `users` (
+    $sql = "CREATE TABLE IF NOT EXISTS `users` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
       `name` varchar(255) NOT NULL,
       `surname` varchar(255) NOT NULL,
