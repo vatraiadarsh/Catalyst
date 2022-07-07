@@ -14,6 +14,25 @@ function connect_to_database()
     return $conn;
 }
 
+function create_user_table($conn)
+{
+    $sql = "CREATE TABLE `users` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) NOT NULL,
+      `surname` varchar(255) NOT NULL,
+      `email` varchar(255) NOT NULL,
+      `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+      `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (`id`)
+    )";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Table users created successfully\n";
+    } else {
+        echo 'Error creating table: ' . mysqli_error($conn) . "\n";
+    }
+}
+
 // the first row is the header row with the column names so we skip it.
 function read_csv_file_and_remove_first_row($file_name)
 {
@@ -61,12 +80,10 @@ function insert_into_database($conn, $data)
 }
 
 if (empty($argv[1])) {
-    echo "Please provide a file name. \n";
-    exit(1); // Graceful Shutdown
+    echo 'Please provide a file name';
+    exit(1); // Graceful shutdown
 }
-$conn = connect_to_database();
 $data = read_csv_file_and_remove_first_row($argv[1]);
-
 if (count($data) > 0) {
     foreach ($data as $row) {
         validate_email_before_inserting_to_database($row[2]);
@@ -75,6 +92,7 @@ if (count($data) > 0) {
     echo "No data to insert\n";
 }
 $conn = connect_to_database();
+create_user_table($conn);
 
 foreach ($data as $row) {
     insert_into_database($conn, $row);

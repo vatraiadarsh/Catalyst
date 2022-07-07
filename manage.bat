@@ -1,3 +1,3 @@
 git add .
-git commit -m "email successfully validated"
+git commit -m "table creation with php script"
 git push -u origin main
