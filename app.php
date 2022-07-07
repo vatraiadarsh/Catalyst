@@ -1,5 +1,22 @@
 <?php
 
+
+function connect_to_database()
+{
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname = 'php_catalyst';
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    echo "Connected successfully";
+
+    if (!$conn) {
+        die('Connection failed: ' . mysqli_connect_error());
+    }
+    return $conn;
+}
+
 function add_csv_file_to_database($file_name){
 
     if (!file_exists($file_name)) {
@@ -30,5 +47,6 @@ if(empty($argv[1])){
     echo "Please provide a file name. \n";
     exit(1); // Graceful Shutdown
 }else{
+    connect_to_database();
     add_csv_file_to_database($argv[1]);
 }
