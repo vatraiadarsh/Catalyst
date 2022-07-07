@@ -13,10 +13,11 @@ function add_csv_file_to_database($file_name){
         $surname = $csv_file_data[1];
         $email = $csv_file_data[2];
 
-       echo "Name: $name, Surname: $surname, Email: $email\n";
-        $csv_file_data = fgetcsv($csv_file);
+     // insert into database
     }
     fclose($csv_file);  
+
+
     
     
 

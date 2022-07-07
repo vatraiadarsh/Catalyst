@@ -1,3 +1,3 @@
 git add .
-git commit -m "printed csv data to console"
+git commit -m "database setup"
 git push -u origin main
