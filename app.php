@@ -9,8 +9,6 @@ function connect_to_database()
     $dbname = 'php_catalyst';
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-    echo "Connected successfully";
-
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
