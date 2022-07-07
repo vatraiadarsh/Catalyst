@@ -36,6 +36,17 @@ function senatize_string($string)
     return preg_replace('/[^\w\s]/', '', $string);
 }
 
+function validate_email_before_inserting_to_database($email)
+{
+    $email = trim($email);
+    $pattern =
+        '/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix';
+    if (!preg_match($pattern, $email)) {
+        echo "Invalid email address: $email\n";
+        exit(1);
+    }
+}
+
 function insert_into_database($conn, $data)
 {
     $name = senatize_string(ucfirst($data[0]));
@@ -57,5 +68,6 @@ $conn = connect_to_database();
 $data = read_csv_file_and_remove_first_row($argv[1]);
 
 foreach ($data as $row) {
+    validate_email_before_inserting_to_database($row[2]);
     insert_into_database($conn, $row);
 }
