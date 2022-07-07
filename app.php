@@ -31,10 +31,15 @@ function read_csv_file_and_remove_first_row($file_name)
     return $data;
 }
 
+function senatize_string($string)
+{
+    return preg_replace('/[^\w\s]/', '', $string);
+}
+
 function insert_into_database($conn, $data)
 {
-    $name = ucfirst($data[0]);
-    $surname = ucfirst($data[1]);
+    $name = senatize_string(ucfirst($data[0]));
+    $surname = senatize_string(ucfirst($data[1]));
     $email = strtolower($data[2]);
     $sql = "INSERT INTO users (name, surname, email) VALUES ('$name', '$surname', '$email')";
     if (mysqli_query($conn, $sql)) {
