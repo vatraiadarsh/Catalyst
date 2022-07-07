@@ -14,7 +14,7 @@ function connect_to_database()
     return $conn;
 }
 
-// / the first row is the header row with the column names[name,surname,email] so trying to skip it.
+// the first row is the header row with the column names so we skip it.
 function read_csv_file_and_remove_first_row($file_name)
 {
     if (!file_exists($file_name)) {
@@ -23,7 +23,14 @@ function read_csv_file_and_remove_first_row($file_name)
     }
     $csv_file = fopen($file_name, 'r');
     $data = [];
-    
+    while (($csv_data = fgetcsv($csv_file)) !== false) {
+        $data[] = $csv_data;
+    }
+    print_r($data);
+    // fclose($csv_file);
+    array_shift($data);
+    // print_r($data);
+    return $data;
 }
 
 
