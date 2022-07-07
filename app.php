@@ -33,9 +33,9 @@ function read_csv_file_and_remove_first_row($file_name)
 
 function insert_into_database($conn, $data)
 {
-    $name = $data[0];
-    $surname = $data[1];
-    $email = $data[2];
+    $name = ucfirst($data[0]);
+    $surname = ucfirst($data[1]);
+    $email = strtolower($data[2]);
     $sql = "INSERT INTO users (name, surname, email) VALUES ('$name', '$surname', '$email')";
     if (mysqli_query($conn, $sql)) {
         echo "New record created successfully\n";

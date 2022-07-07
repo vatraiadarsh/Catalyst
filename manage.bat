@@ -1,3 +1,3 @@
 git add .
-git commit -m "inserting to database"
+git commit -m "data sanitization"
 git push -u origin main
