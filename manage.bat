@@ -1,3 +1,3 @@
 git add .
-git commit -m "handling graceful shutdowns"
+git commit -m "printed csv data to console"
 git push -u origin main
