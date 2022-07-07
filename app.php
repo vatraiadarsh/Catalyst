@@ -67,7 +67,18 @@ if (empty($argv[1])) {
 $conn = connect_to_database();
 $data = read_csv_file_and_remove_first_row($argv[1]);
 
+if (count($data) > 0) {
+    foreach ($data as $row) {
+        validate_email_before_inserting_to_database($row[2]);
+    }
+} else {
+    echo "No data to insert\n";
+}
+$conn = connect_to_database();
+
 foreach ($data as $row) {
-    validate_email_before_inserting_to_database($row[2]);
     insert_into_database($conn, $row);
 }
+
+echo count($data) . " rows inserted\n";
+mysqli_close($conn);
