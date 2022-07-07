@@ -1,6 +1,5 @@
 <?php
 
-
 function connect_to_database()
 {
     $servername = 'localhost';
@@ -15,36 +14,27 @@ function connect_to_database()
     return $conn;
 }
 
-function add_csv_file_to_database($file_name){
-
+// / the first row is the header row with the column names[name,surname,email] so trying to skip it.
+function read_csv_file_and_remove_first_row($file_name)
+{
     if (!file_exists($file_name)) {
         echo "File $file_name does not exist";
-        exit(1); // Graceful Shutdown
+        exit(1);
     }
     $csv_file = fopen($file_name, 'r');
-    $csv_file_data = fgetcsv($csv_file);
-    while($csv_file_data !== false){
-        $name = $csv_file_data[0];
-        $surname = $csv_file_data[1];
-        $email = $csv_file_data[2];
-
-     // insert into database
-    }
-    fclose($csv_file);  
-
-
+    $data = [];
     
-    
-
-
 }
 
 
 
-if(empty($argv[1])){
+
+
+
+if (empty($argv[1])) {
     echo "Please provide a file name. \n";
     exit(1); // Graceful Shutdown
-}else{
+} else {
     connect_to_database();
-    add_csv_file_to_database($argv[1]);
+    read_csv_file_and_remove_first_row($argv[1]);
 }
