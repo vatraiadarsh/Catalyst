@@ -26,22 +26,28 @@ function read_csv_file_and_remove_first_row($file_name)
     while (($csv_data = fgetcsv($csv_file)) !== false) {
         $data[] = $csv_data;
     }
-    print_r($data);
-    // fclose($csv_file);
+    fclose($csv_file);
     array_shift($data);
-    // print_r($data);
     return $data;
 }
 
-
-
-
-
+function insert_into_database($conn, $data)
+{
+    $name = $data[0];
+    $surname = $data[1];
+    $email = $data[2];
+    $sql = "INSERT INTO users (name, surname, email) VALUES ('$name', '$surname', '$email')";
+    if (mysqli_query($conn, $sql)) {
+        echo "New record created successfully\n";
+    } else {
+        echo 'Error: ' . $sql . '<br>' . mysqli_error($conn);
+    }
+}
 
 if (empty($argv[1])) {
     echo "Please provide a file name. \n";
     exit(1); // Graceful Shutdown
-} else {
-    connect_to_database();
-    read_csv_file_and_remove_first_row($argv[1]);
 }
+$conn = connect_to_database();
+$data = read_csv_file_and_remove_first_row($argv[1]);
+insert_into_database($conn, $data);
