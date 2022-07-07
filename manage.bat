@@ -1,3 +1,3 @@
 git add .
-git commit -m "reading user input "
+git commit -m "input from command line"
 git push -u origin main

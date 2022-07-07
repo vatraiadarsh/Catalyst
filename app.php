@@ -12,4 +12,10 @@ function add_csv_file_to_database($file_name){
 
 }
 
-add_csv_file_to_database('users.csv');
+
+if(empty($argv[1])){
+    echo "Please provide a file name\n";
+    exit(1); // Graceful Shutdown
+}else{
+    add_csv_file_to_database($argv[1]);
+}
