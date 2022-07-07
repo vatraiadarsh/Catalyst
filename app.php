@@ -50,4 +50,7 @@ if (empty($argv[1])) {
 }
 $conn = connect_to_database();
 $data = read_csv_file_and_remove_first_row($argv[1]);
-insert_into_database($conn, $data);
+
+foreach ($data as $row) {
+    insert_into_database($conn, $row);
+}
