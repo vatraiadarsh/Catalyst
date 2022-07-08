@@ -1,9 +1,21 @@
 <?php
 
 // Successful User Input:: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost
+// Array
+// (
+//     [0] => user_upload.php
+//     [1] => --file
+//     [2] => users.csv
+//     [3] => --create_table
+//     [4] => --dry_run
+//     [5] => -u
+//     [6] => root
+//     [7] => -p
+//     [8] =>
+//     [9] => -h
+//     [10] => localhost
+// )
 
-
-function directive_command(){
     $options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
     if (isset($options['help'])) {
         echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n\n";
@@ -17,47 +29,14 @@ function directive_command(){
         echo "--help - which will output the above list of directives with details.\n";
         exit(0);
     }
-    
-    if (isset($options['file'])) {
-        $file_name = $options['file'];
-    } else {
-        echo "--file directive is required\n";
-    }
-    
-    if (isset($options['create_table'])) {
-      echo "create table";
-    }
-    
-    if (isset($options['dry_run'])) {
-        echo "Dry run\n";
-    }
-    
-    if (isset($options['u'])) {
-        $username = $options['u'];
-    } else {
-        echo "No username specified\n";
-        
-    }
-    
-    if (isset($options['p'])) {
-        $password = $options['p'];
-    } else {
-        echo "No password specified\n";
-        
-    }
-    
-    
-    if (isset($options['h'])) {
-        $host = $options['h'];
-    } else {
-        echo "No host specified\n";
-        
-    }
 
-    return [$file_name, $username, $password, $host];
-    
+    // if(count($argv)!==11){
+    //     echo "No arguments provided\n". count($argv);
+    //     print_r($argv);
+    //     exit(1);
+    // }
+   
 
-}
 
 
 // connect to the database using the credentials provided in the directive_commands function
@@ -70,7 +49,6 @@ function connect_to_database($argv)
     $password = $argv[8];
     $dbname = 'php_catalyst';
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-    print_r("username: $username\n");
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
@@ -145,10 +123,14 @@ function insert_into_database($conn, $data)
 
 
 function main($argv){
-    if (empty($argv[1]) || empty($argv[2]) || empty($argv[3]) || empty($argv[4]) || empty($argv[5]) || empty($argv[6])) {
-        echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n";
+    if(count($argv)<11){
+        // echo "Please use this format\n". count($argv);
+        // print_r($argv);
+        // echo "php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost";
+        echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]";
         exit(1);
     }
+   
     $file_name = $argv[2];
     $conn = connect_to_database($argv);
     create_user_table($conn);
