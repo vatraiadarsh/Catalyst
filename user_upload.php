@@ -2,7 +2,7 @@
 
 $options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
 if (isset($options['help'])) {
-    echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n\n";
+    echo "\nUsage: php user_upload.php --file [csv file name] --create_table -u [username] -p [password] -h [host]\n\n";
     echo "--file [csv file name] - this is the name of the CSV to be parsed\n";
     echo "--create_table - this will cause the MySQL users table to be built (and no further action will be taken)\n";
     echo "--dry_run - this will be used with the --file directive in case we want to run the script but not \r\n";
@@ -96,14 +96,13 @@ function insert_into_database($conn, $data)
 
 function main($argv){
 
-    if (isset($argv[1])) {
-        $file_name = $argv[1];
-    } else {
+    if (!isset($argv[1])) {
         echo "No file name provided\n";
         echo "please use --help for more information\n";
-        echo "php user_upload.php --help\n\n";
+        echo "eg: php user_upload.php --help\n\n";
         exit(1);
     }
+   
 
     if($argv[1] == '--file' && $argv[3] == '--dry_run'){
         if(count($argv) < 3){
