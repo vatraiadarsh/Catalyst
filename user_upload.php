@@ -102,7 +102,15 @@ function main($argv){
         echo "eg: php user_upload.php --help\n\n";
         exit(1);
     }
-   
+
+    if($argv[1] == '--file' ){
+        if(count($argv) < 3){
+            echo "Use this format to perform the parse file and do the DRY run \n";
+            echo "php user_upload.php --file [filename] --dry_run\n";
+            echo "eg: php user_upload.php --file users.csv --dry_run\n\n";
+            exit(1);
+        }
+    }
 
     if($argv[1] == '--file' && $argv[3] == '--dry_run'){
         if(count($argv) < 3){
