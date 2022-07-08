@@ -1,6 +1,6 @@
 <?php
 
-// Successful User Input:: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost
+// Successful User Input:: php user_upload.php --file users.csv --create_table -u root -p "" -h localhost
 // Array
 // (
 //     [0] => user_upload.php
@@ -33,9 +33,9 @@
 function connect_to_database($argv)
 {
    
-    $servername = $argv[10];
-    $username = $argv[6];
-    $password = $argv[8];
+    $servername = $argv[9];
+    $username = $argv[5];
+    $password = $argv[7];
     $dbname = 'php_catalyst';
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     if (!$conn) {
@@ -109,18 +109,6 @@ function insert_into_database($conn, $data)
     }
 }
 
-// $username = $argv[1];
-// $password = $argv[2];
-// print_r("password",$argv[2]);
-// $host = $argv[3];
-// $database = 'php_catalyst';
-// $connection = mysqli_connect($host, $username, $password, $database);
-// if(!$connection){
-//     die("Database connection failed: " . mysqli_connect_error());
-// }
-// else{
-//     print_r("\nDatabase connection successful");
-// }
 
 function main($argv){
 
@@ -148,11 +136,11 @@ function main($argv){
     }
     
 
-    if(count($argv)<11){
+    if(count($argv)<10){
         echo "Please use this fomat:";
-        echo "php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n";
+        echo "php user_upload.php --file [csv file name] --create_table -u [username] -p [password] -h [host]\n";
         echo "\n";
-        echo 'Usage example: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost';
+        echo 'Usage example: php user_upload.php --file users.csv --create_table -u root -p "" -h localhost';
         echo "\n";
         echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER BLANK FIELDS, USE  "" ';
         echo "\n";

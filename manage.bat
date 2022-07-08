@@ -1,3 +1,3 @@
 git add .
-git commit -m "table creation successful"
+git commit -m "removed dryrun from main function"
 git push -u origin main
