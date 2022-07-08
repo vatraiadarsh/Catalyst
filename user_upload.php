@@ -95,6 +95,16 @@ function insert_into_database($conn, $data)
 
 
 function main($argv){
+
+    if (isset($argv[1])) {
+        $file_name = $argv[1];
+    } else {
+        echo "No file name provided\n";
+        echo "please use --help for more information\n";
+        echo "php user_upload.php --help\n\n";
+        exit(1);
+    }
+
     if($argv[1] == '--file' && $argv[3] == '--dry_run'){
         if(count($argv) < 3){
             echo "Use this format to perform the DRY run \n";

@@ -1,3 +1,3 @@
 git add .
-git commit -m "Completed."
+git commit -m "graceful shutdown."
 git push -u origin main
