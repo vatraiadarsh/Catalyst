@@ -79,29 +79,43 @@ function insert_into_database($conn, $data)
     }
 }
 
-function main($argv)
-{
-    if (empty($argv[1])) {
-        echo 'Please provide a file name';
-        exit(1); // Graceful shutdown
-    }
-    $data = read_csv_file_and_remove_first_row($argv[1]);
-    if (count($data) > 0) {
-        foreach ($data as $row) {
-            validate_email_before_inserting_to_database($row[2]);
-        }
-    } else {
-        echo "No data to insert\n";
-    }
-    $conn = connect_to_database();
-    create_user_table($conn);
 
-    foreach ($data as $row) {
-        insert_into_database($conn, $row);
-    }
+$options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
 
-    echo count($data) . " rows inserted\n";
-    mysqli_close($conn);
+if (isset($options['help'])) {
+    echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n\n";
+}
+
+
+function main($argv){
+    
 }
 
 main($argv);
+
+// function main($argv)
+// {
+//     if (empty($argv[1])) {
+//         echo 'Please provide a file name';
+//         exit(1); // Graceful shutdown
+//     }
+//     $data = read_csv_file_and_remove_first_row($argv[1]);
+//     if (count($data) > 0) {
+//         foreach ($data as $row) {
+//             validate_email_before_inserting_to_database($row[2]);
+//         }
+//     } else {
+//         echo "No data to insert\n";
+//     }
+//     $conn = connect_to_database();
+//     create_user_table($conn);
+
+//     foreach ($data as $row) {
+//         insert_into_database($conn, $row);
+//     }
+
+//     echo count($data) . " rows inserted\n";
+//     mysqli_close($conn);
+// }
+
+// main($argv);
