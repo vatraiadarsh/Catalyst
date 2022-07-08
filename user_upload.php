@@ -7,7 +7,6 @@
 //     [1] => --file
 //     [2] => users.csv
 //     [3] => --create_table
-//     [4] => --dry_run
 //     [5] => -u
 //     [6] => root
 //     [7] => -p
@@ -117,19 +116,26 @@ function main($argv){
     // insert into the DB. All other functions will be executed, but the database won't be altered
 
     if($argv[1] == '--file' && $argv[3] == '--dry_run'){
+        if(count($argv) < 3){
+            echo "Use this format to perform the DRY run \n";
+            echo "php user_upload.php --file [filename] --dry_run\n";
+            echo "eg: php user_upload.php --file users.csv --dry_run\n\n";
+            exit(1);
+        }
         $file_name = $argv[2];
         $data = read_csv_file_and_remove_first_row($file_name);
         if(count($data) > 0){
             echo "-----------PERFORMING DRY RUN--------------:\n";
             foreach($data as $row){
-                echo $row[0] . ' ' . $row[1] . ' ' . $row[2] . "\n";
+                // echo "Name:" . $row[0] . " " . "Surname:" . $row[1] . " " . "Email:" . $row[2] . "\n";
+                printf("%s     %s     %s\n", $row[0], $row[1], $row[2]);
             }
         }
+        echo "-----------END OF DRY RUN--------------:\n";
         echo "Dry run successful\n";
+        exit(0);
     }
-    else{
-        echo "Invalid command line arguments\n";
-    }
+   
 
 
 
