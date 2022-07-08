@@ -30,11 +30,6 @@
         exit(0);
     }
 
-//     --create_table – this will cause the MySQL users table to be built (and no further
-// • action will be taken)
-
-   
-
 function connect_to_database($argv)
 {
    
@@ -130,9 +125,21 @@ function insert_into_database($conn, $data)
 function main($argv){
 
     if($argv[1] === "--create_table"){
-        echo "Creating table\n";
+        echo "Use this format to create table with your username password host database and the table name you want to create\n";
+        $username = $argv[2];
+        $password = $argv[3];
+        $host = $argv[4];
+        $dbname = $argv[5];
+        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        if(!$connection){
+            die("Database connection failed: " . mysqli_connect_error());
+        }
+        else{
+            create_user_table($connection);
+        }
         exit(0);
     }
+    
 
     if(count($argv)<11){
         echo "Please use this fomat:";
@@ -142,9 +149,11 @@ function main($argv){
         echo "\n";
         echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER BLANK FIELDS, USE  "" ';
         echo "\n";
+        echo "TO PERFORM MORE OPERATIONS USE THE --help (eg: php user_upload.php --help) \n";
         exit(1);
     } 
 
+    
     
    
     $file_name = $argv[2];
