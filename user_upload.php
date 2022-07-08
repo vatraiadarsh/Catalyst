@@ -133,15 +133,31 @@ if (isset($options['h'])) {
 
 
 
-// php user_upload.php --file users.php --create_table --dry_run --u root --p "" --h localhost
+// Successful User Input:: user_upload.php --file users.csv --create_table --dry_run --u root --p "" --h localhost
 
 function main($argv){
     if (empty($argv[1]) || empty($argv[2]) || empty($argv[3]) || empty($argv[4]) || empty($argv[5]) || empty($argv[6])) {
         echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n";
         exit(1);
     }
-    echo "success";
-    
+    $file_name = $argv[2];
+    $conn = connect_to_database();
+    create_user_table($conn);
+    $data = read_csv_file_and_remove_first_row($file_name);
+    if (count($data) > 0) {
+        foreach ($data as $row) {
+        validate_email_before_inserting_to_database($row[2]);
+        }
+    }else{
+        echo "No data to insert\n";
+    }
+
+    foreach ($data as $row) {
+        insert_into_database($conn, $row);
+    }
+    echo count($data) . " rows inserted\n";
+    mysqli_close($conn);
+
 }
 
 

@@ -1,3 +1,3 @@
 git add .
-git commit -m "running directives"
+git commit -m "insertion to db finished"
 git push -u origin main
