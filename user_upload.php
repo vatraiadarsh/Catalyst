@@ -30,16 +30,10 @@
         exit(0);
     }
 
-    // if(count($argv)!==11){
-    //     echo "No arguments provided\n". count($argv);
-    //     print_r($argv);
-    //     exit(1);
-    // }
+//     --create_table – this will cause the MySQL users table to be built (and no further
+// • action will be taken)
+
    
-
-
-
-// connect to the database using the credentials provided in the directive_commands function
 
 function connect_to_database($argv)
 {
@@ -120,20 +114,38 @@ function insert_into_database($conn, $data)
     }
 }
 
-
+// $username = $argv[1];
+// $password = $argv[2];
+// print_r("password",$argv[2]);
+// $host = $argv[3];
+// $database = 'php_catalyst';
+// $connection = mysqli_connect($host, $username, $password, $database);
+// if(!$connection){
+//     die("Database connection failed: " . mysqli_connect_error());
+// }
+// else{
+//     print_r("\nDatabase connection successful");
+// }
 
 function main($argv){
+
+    if($argv[1] === "--create_table"){
+        echo "Creating table\n";
+        exit(0);
+    }
+
     if(count($argv)<11){
         echo "Please use this fomat:";
-        // escape the double quotes in the string
         echo "php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n";
         echo "\n";
         echo 'Usage example: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost';
         echo "\n";
-        echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER FIELDS, USE  "" \n';
+        echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER BLANK FIELDS, USE  "" ';
         echo "\n";
         exit(1);
     } 
+
+    
    
     $file_name = $argv[2];
     $conn = connect_to_database($argv);

@@ -1,3 +1,3 @@
 git add .
-git commit -m "Graceful shutdown for different cases"
+git commit -m "Working with just creating the table"
 git push -u origin main
