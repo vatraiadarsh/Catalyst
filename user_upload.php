@@ -125,12 +125,19 @@ function insert_into_database($conn, $data)
 function main($argv){
 
     if($argv[1] === "--create_table"){
-        echo "Use this format to create table with your username password host database and the table name you want to create\n";
+       if(count($argv)<6){
+        echo "Use this format to create table with your username password host and database \n";
+        echo "php user_upload.php --create_table [username] [password] [host] [database]\n\n";
+        echo 'eg: php user_upload.php --create_table root "" localhost apple';
+        echo "\n";
+        echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER BLANK FIELDS, USE  "" ';
+        exit(1);
+       }
         $username = $argv[2];
         $password = $argv[3];
         $host = $argv[4];
         $dbname = $argv[5];
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
+        $connection = mysqli_connect($host, $username, $password, $dbname);
         if(!$connection){
             die("Database connection failed: " . mysqli_connect_error());
         }

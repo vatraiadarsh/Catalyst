@@ -1,3 +1,3 @@
 git add .
-git commit -m "--create table"
+git commit -m "table creation successful"
 git push -u origin main
