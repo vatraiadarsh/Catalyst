@@ -112,6 +112,27 @@ function insert_into_database($conn, $data)
 
 function main($argv){
 
+    // --file [csv file name] – this is the name of the CSV to be parsed
+    // --dry_run – this will be used with the --file directive in case we want to run the script but not
+    // insert into the DB. All other functions will be executed, but the database won't be altered
+
+    if($argv[1] == '--file' && $argv[3] == '--dry_run'){
+        $file_name = $argv[2];
+        $data = read_csv_file_and_remove_first_row($file_name);
+        if(count($data) > 0){
+            echo "-----------PERFORMING DRY RUN--------------:\n";
+            foreach($data as $row){
+                echo $row[0] . ' ' . $row[1] . ' ' . $row[2] . "\n";
+            }
+        }
+        echo "Dry run successful\n";
+    }
+    else{
+        echo "Invalid command line arguments\n";
+    }
+
+
+
     if($argv[1] === "--create_table"){
        if(count($argv)<6){
         echo "Use this format to create table with your username password host and database \n";

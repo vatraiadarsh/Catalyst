@@ -1,3 +1,3 @@
 git add .
-git commit -m "removed dryrun from main function"
+git commit -m "Implementing DRY RUN"
 git push -u origin main
