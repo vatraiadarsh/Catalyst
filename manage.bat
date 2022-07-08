@@ -1,3 +1,3 @@
 git add .
-git commit -m "required file directive"
+git commit -m "running directives"
 git push -u origin main

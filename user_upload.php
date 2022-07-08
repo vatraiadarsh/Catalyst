@@ -98,18 +98,52 @@ if (isset($options['file'])) {
     $file_name = $options['file'];
 } else {
     echo "--file directive is required\n";
-    exit(1);
+}
+
+if (isset($options['create_table'])) {
+    $conn = connect_to_database();
+    create_user_table($conn);
+}
+
+if (isset($options['dry_run'])) {
+    echo "Dry run\n";
+}
+
+if (isset($options['u'])) {
+    $username = $options['u'];
+} else {
+    echo "No username specified\n";
+    
+}
+
+if (isset($options['p'])) {
+    $password = $options['p'];
+} else {
+    echo "No password specified\n";
+    
 }
 
 
+if (isset($options['h'])) {
+    $host = $options['h'];
+} else {
+    echo "No host specified\n";
+    
+}
+
+
+
+// php user_upload.php --file users.php --create_table --dry_run --u root --p "" --h localhost
 
 function main($argv){
     if (empty($argv[1]) || empty($argv[2]) || empty($argv[3]) || empty($argv[4]) || empty($argv[5]) || empty($argv[6])) {
         echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n";
         exit(1);
     }
-
+    echo "success";
+    
 }
+
 
 main($argv);
 
