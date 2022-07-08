@@ -1,13 +1,76 @@
 <?php
 
-function connect_to_database()
+// Successful User Input:: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost
+
+
+function directive_command(){
+    $options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
+    if (isset($options['help'])) {
+        echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n\n";
+        echo "--file [csv file name] - this is the name of the CSV to be parsed\n";
+        echo "--create_table - this will cause the MySQL users table to be built (and no further action will be taken)\n";
+        echo "--dry_run - this will be used with the --file directive in case we want to run the script but not \r\n";
+        echo "All other functions will be executed, but the database won't be altered\n";
+        echo "-u - MySQL username\n";
+        echo "-p - MySQL password\n";
+        echo "-h - MySQL host\n\n";
+        echo "--help - which will output the above list of directives with details.\n";
+        exit(0);
+    }
+    
+    if (isset($options['file'])) {
+        $file_name = $options['file'];
+    } else {
+        echo "--file directive is required\n";
+    }
+    
+    if (isset($options['create_table'])) {
+      echo "create table";
+    }
+    
+    if (isset($options['dry_run'])) {
+        echo "Dry run\n";
+    }
+    
+    if (isset($options['u'])) {
+        $username = $options['u'];
+    } else {
+        echo "No username specified\n";
+        
+    }
+    
+    if (isset($options['p'])) {
+        $password = $options['p'];
+    } else {
+        echo "No password specified\n";
+        
+    }
+    
+    
+    if (isset($options['h'])) {
+        $host = $options['h'];
+    } else {
+        echo "No host specified\n";
+        
+    }
+
+    return [$file_name, $username, $password, $host];
+    
+
+}
+
+
+// connect to the database using the credentials provided in the directive_commands function
+
+function connect_to_database($argv)
 {
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
+   
+    $servername = $argv[10];
+    $username = $argv[6];
+    $password = $argv[8];
     $dbname = 'php_catalyst';
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-
+    print_r("username: $username\n");
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
@@ -80,68 +143,14 @@ function insert_into_database($conn, $data)
 }
 
 
-$options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
-if (isset($options['help'])) {
-    echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n\n";
-    echo "--file [csv file name] - this is the name of the CSV to be parsed\n";
-    echo "--create_table - this will cause the MySQL users table to be built (and no further action will be taken)\n";
-    echo "--dry_run - this will be used with the --file directive in case we want to run the script but not \r\n";
-    echo "All other functions will be executed, but the database won't be altered\n";
-    echo "-u - MySQL username\n";
-    echo "-p - MySQL password\n";
-    echo "-h - MySQL host\n\n";
-    echo "--help - which will output the above list of directives with details.\n";
-    exit(0);
-}
-
-if (isset($options['file'])) {
-    $file_name = $options['file'];
-} else {
-    echo "--file directive is required\n";
-}
-
-if (isset($options['create_table'])) {
-    $conn = connect_to_database();
-    create_user_table($conn);
-}
-
-if (isset($options['dry_run'])) {
-    echo "Dry run\n";
-}
-
-if (isset($options['u'])) {
-    $username = $options['u'];
-} else {
-    echo "No username specified\n";
-    
-}
-
-if (isset($options['p'])) {
-    $password = $options['p'];
-} else {
-    echo "No password specified\n";
-    
-}
-
-
-if (isset($options['h'])) {
-    $host = $options['h'];
-} else {
-    echo "No host specified\n";
-    
-}
-
-
-
-// Successful User Input:: user_upload.php --file users.csv --create_table --dry_run --u root --p "" --h localhost
 
 function main($argv){
     if (empty($argv[1]) || empty($argv[2]) || empty($argv[3]) || empty($argv[4]) || empty($argv[5]) || empty($argv[6])) {
-        echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n";
+        echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n";
         exit(1);
     }
     $file_name = $argv[2];
-    $conn = connect_to_database();
+    $conn = connect_to_database($argv);
     create_user_table($conn);
     $data = read_csv_file_and_remove_first_row($file_name);
     if (count($data) > 0) {
