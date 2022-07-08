@@ -124,6 +124,9 @@ function main($argv){
         }
         $file_name = $argv[2];
         $data = read_csv_file_and_remove_first_row($file_name);
+        foreach($data as $row){
+            validate_email_before_inserting_to_database($row[2]);
+        }
         if(count($data) > 0){
             echo "-----------PERFORMING DRY RUN--------------:\n";
             foreach($data as $row){
