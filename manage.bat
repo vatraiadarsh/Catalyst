@@ -1,3 +1,3 @@
 git add .
-git commit -m "Validating email address in Dry run too"
+git commit -m "Completed."
 git push -u origin main

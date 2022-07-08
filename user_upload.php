@@ -1,33 +1,18 @@
 <?php
 
-// Successful User Input:: php user_upload.php --file users.csv --create_table -u root -p "" -h localhost
-// Array
-// (
-//     [0] => user_upload.php
-//     [1] => --file
-//     [2] => users.csv
-//     [3] => --create_table
-//     [5] => -u
-//     [6] => root
-//     [7] => -p
-//     [8] =>
-//     [9] => -h
-//     [10] => localhost
-// )
-
-    $options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
-    if (isset($options['help'])) {
-        echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n\n";
-        echo "--file [csv file name] - this is the name of the CSV to be parsed\n";
-        echo "--create_table - this will cause the MySQL users table to be built (and no further action will be taken)\n";
-        echo "--dry_run - this will be used with the --file directive in case we want to run the script but not \r\n";
-        echo "All other functions will be executed, but the database won't be altered\n";
-        echo "-u - MySQL username\n";
-        echo "-p - MySQL password\n";
-        echo "-h - MySQL host\n\n";
-        echo "--help - which will output the above list of directives with details.\n";
-        exit(0);
-    }
+$options = getopt('', ['file:', 'create_table', 'dry_run', 'u:', 'p:', 'h:', 'help']);
+if (isset($options['help'])) {
+    echo "\nUsage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n\n";
+    echo "--file [csv file name] - this is the name of the CSV to be parsed\n";
+    echo "--create_table - this will cause the MySQL users table to be built (and no further action will be taken)\n";
+    echo "--dry_run - this will be used with the --file directive in case we want to run the script but not \r\n";
+    echo "All other functions will be executed, but the database won't be altered\n";
+    echo "-u - MySQL username\n";
+    echo "-p - MySQL password\n";
+    echo "-h - MySQL host\n\n";
+    echo "--help - which will output the above list of directives with details.\n";
+    exit(0);
+}
 
 function connect_to_database($argv)
 {
@@ -110,11 +95,6 @@ function insert_into_database($conn, $data)
 
 
 function main($argv){
-
-    // --file [csv file name] – this is the name of the CSV to be parsed
-    // --dry_run – this will be used with the --file directive in case we want to run the script but not
-    // insert into the DB. All other functions will be executed, but the database won't be altered
-
     if($argv[1] == '--file' && $argv[3] == '--dry_run'){
         if(count($argv) < 3){
             echo "Use this format to perform the DRY run \n";
@@ -138,9 +118,6 @@ function main($argv){
         echo "Dry run successful\n";
         exit(0);
     }
-   
-
-
 
     if($argv[1] === "--create_table"){
        if(count($argv)<6){
@@ -163,9 +140,7 @@ function main($argv){
             create_user_table($connection);
         }
         exit(0);
-    }
-    
-
+    } 
     if(count($argv)<10){
         echo "Please use this fomat:";
         echo "php user_upload.php --file [csv file name] --create_table -u [username] -p [password] -h [host]\n";
@@ -177,10 +152,7 @@ function main($argv){
         echo "TO PERFORM MORE OPERATIONS USE THE --help (eg: php user_upload.php --help) \n";
         exit(1);
     } 
-
     
-    
-   
     $file_name = $argv[2];
     $conn = connect_to_database($argv);
     create_user_table($conn);
@@ -203,30 +175,3 @@ function main($argv){
 
 
 main($argv);
-
-// function main($argv)
-// {
-//     if (empty($argv[1])) {
-//         echo 'Please provide a file name';
-//         exit(1); // Graceful shutdown
-//     }
-//     $data = read_csv_file_and_remove_first_row($argv[1]);
-//     if (count($data) > 0) {
-//         foreach ($data as $row) {
-//             validate_email_before_inserting_to_database($row[2]);
-//         }
-//     } else {
-//         echo "No data to insert\n";
-//     }
-//     $conn = connect_to_database();
-//     create_user_table($conn);
-
-//     foreach ($data as $row) {
-//         insert_into_database($conn, $row);
-//     }
-
-//     echo count($data) . " rows inserted\n";
-//     mysqli_close($conn);
-// }
-
-// main($argv);
