@@ -94,12 +94,21 @@ if (isset($options['help'])) {
     exit(0);
 }
 
+if (isset($options['file'])) {
+    $file_name = $options['file'];
+} else {
+    echo "--file directive is required\n";
+    exit(1);
+}
+
+
 
 function main($argv){
     if (empty($argv[1]) || empty($argv[2]) || empty($argv[3]) || empty($argv[4]) || empty($argv[5]) || empty($argv[6])) {
         echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run --u [username] --p [password] --h [host]\n";
         exit(1);
     }
+
 }
 
 main($argv);
