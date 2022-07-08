@@ -124,12 +124,16 @@ function insert_into_database($conn, $data)
 
 function main($argv){
     if(count($argv)<11){
-        // echo "Please use this format\n". count($argv);
-        // print_r($argv);
-        // echo "php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost";
-        echo "Usage: php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]";
+        echo "Please use this fomat:";
+        // escape the double quotes in the string
+        echo "php user_upload.php --file [csv file name] --create_table --dry_run -u [username] -p [password] -h [host]\n";
+        echo "\n";
+        echo 'Usage example: php user_upload.php --file users.csv --create_table --dry_run -u root -p "" -h localhost';
+        echo "\n";
+        echo 'NOTE: FOR BLANK PASSWORD OR ANY OTHER FIELDS, USE  "" \n';
+        echo "\n";
         exit(1);
-    }
+    } 
    
     $file_name = $argv[2];
     $conn = connect_to_database($argv);
